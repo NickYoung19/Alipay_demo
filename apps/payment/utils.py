@@ -12,7 +12,6 @@ def my_ali_pay(notify_url=None):
     支付成功支付宝服务器异步通知默认回调url，会向这个地址发送POST请求，接口实现校验是否支付已经完成，注意：此地址需要能在公网进行访问
     :return: 支付对象
     """
-    print(os.path.join(os.path.dirname(__file__), "keys/app_private_key.pem"))
     ali_pay_obj = AliPay(
         appid=settings.ALI_PAY_APP_ID,
         app_notify_url=notify_url,  # 支付成功支付宝服务器异步通知默认回调url, 即会向这个地址发送POST请求

@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.payment.utils import my_ali_pay, is_app_pay
+from utils.common import get_domain
 
 
 @csrf_exempt
@@ -29,7 +30,7 @@ def index(request):
     out_trade_no = timezone.now().strftime('%Y%m%d%H%M%S') + ''.join(map(str, random.sample(range(0, 9), 6)))
 
     # 生成支付宝支付链接地址
-    domain_name = request.get_host()
+    domain_name = get_domain(request)
     notify_url = domain_name + '/payment/update_order/'
     ali_pay = my_ali_pay(notify_url)
     order_string = ali_pay.api_alipay_trade_page_pay(
@@ -64,7 +65,7 @@ def get_pay_url(request):
         out_trade_no = timezone.now().strftime('%Y%m%d%H%M%S') + ''.join(map(str, random.sample(range(0, 9), 6)))
 
         # 生成支付宝支付链接地址
-        domain_name = request.get_host()
+        domain_name = get_domain(request)
         notify_url = domain_name + '/payment/update_order/'
         ali_pay = my_ali_pay(notify_url)
         order_string = ali_pay.api_alipay_trade_page_pay(
