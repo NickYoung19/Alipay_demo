@@ -1,4 +1,5 @@
 # Create your views here.
+import json
 import random
 
 from urllib import parse
@@ -175,3 +176,19 @@ def update_order(request):
         return HttpResponse('fail')
 
     return HttpResponse('fail')
+
+
+@csrf_exempt
+@atomic()
+def cancel_order(request):
+    if request.method == "POST":
+        post = json.loads(request.body, strict=False)
+        order_id = post.get("order_id", 0)
+        if not order_id:
+            return JsonResponse(dict(message="参数错误"))
+        # 取消订单业务逻辑实现
+        # 校验订单，查询订单是否存在
+        # 存在即更新订单状态
+        return JsonResponse(dict(message="取消订单成功"))
+
+    return JsonResponse(dict(message="请求方法错误，取消订单失败"))
