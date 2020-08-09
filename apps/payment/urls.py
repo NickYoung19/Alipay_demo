@@ -8,4 +8,5 @@ urlpatterns = [
     path('payment/pay_url/', views.get_pay_url),  # 获取支付宝支付链接
     path('payment/get_result/', views.pay_result),  # 支付宝处理完成后同步回调通知
     path('payment/update_order/', views.update_order),  # 支付宝处理完成后支付宝服务器异步回调通知
+    path('payment/cancel_order/', views.cancel_order),  # 取消订单视图
 ]
