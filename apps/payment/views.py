@@ -12,7 +12,10 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.payment.utils import my_ali_pay, is_app_pay
-from utils.common import get_domain
+from utils.common import get_domain, Redis
+
+# redis连接对象
+redis = Redis().connection()
 
 
 @csrf_exempt
@@ -42,6 +45,12 @@ def index(request):
     )
     # 拼接支付链接，注意：App支付不需要返回支付宝网关
     ali_pay_url = order_string if is_app_pay(order_string) else settings.ALI_PAY_URL + "?" + order_string
+
+    # 设置redis key空间过期事件，实现key过期自动取消订单，这里过期时间模拟设为10秒
+    prefix = 'nick_'
+    key_name = f"{prefix}{out_trade_no}"  # 拼接key：自定义前缀'nick_' + '订单编号'
+    seconds = 30 * 60  # 30分钟订单自动取消
+    redis.setex(key_name, 10 if settings.DEBUG else seconds, "use_cancel_order")  # key, seconds, value
 
     return redirect(ali_pay_url)
 
