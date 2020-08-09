@@ -31,7 +31,7 @@ def event_handler(msg):
         print("事件执行返回状态：", data)
 
 
-# 订阅redis键空间通知
+# 订阅redis键空间通知，__keyevent@0__:expired 的 0 表示数据库index，表示只触发本数据库的过期事件
 pub_sub.psubscribe(**{'__keyevent@0__:expired': event_handler})
 
 
