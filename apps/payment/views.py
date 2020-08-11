@@ -143,7 +143,7 @@ def update_order(request):
 
         body_str = request.body.decode('utf-8')
         data = parse.parse_qs(body_str)
-        # data = parse.parse_qs(parse.unquote(body))  # 前端回传的url如果被编码，这里需要用unquote解码再转换成字典
+        # data = parse.parse_qs(parse.unquote(body))  # 回传的url中如果发现被编码，这里可以用unquote解码再转换成字典
         # 异步通知data参数转换字典后示例如下：
         """
         {
